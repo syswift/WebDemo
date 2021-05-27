@@ -2,6 +2,7 @@ import {app} from './app'
 import mongoose from 'mongoose';
 
 const start = async () => {
+    //process.env.NODE_OPTIONS="--max-old-space-size=8192";
     if(!process.env.JWT_KEY) {
         throw new Error('JWT_KEY not found!');
     }
