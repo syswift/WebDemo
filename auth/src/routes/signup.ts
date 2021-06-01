@@ -13,14 +13,25 @@ router.post('/api/auth/signup',[
         .withMessage('Email must be valid'),
     body('password')
         .trim()
-        .isLength({min: 4, max: 20})
+        .matches(
+            /^(?=.*\d)(?=.*[a-z])/,
+          )
+        .withMessage('Password must have letters and numbers'),
+    body('password')
+        .trim()
+        .matches(
+            /^(?=.*[A-Z])/,
+          )
+        .withMessage('Password must have atleast one uppercase letters'),
+    body('password')
+        .trim()
+        .isLength({min: 8, max: 20})
         .withMessage('Password must be between 4 and 20 characters')
 ], 
 validateRequest,
 async (req: Request, res: Response) =>{
 
     const { email, password, con_password } = req.body;
-    console.log(password,con_password);
 
     if(password !== con_password){
         throw new BadRequestError('please input same password as above');

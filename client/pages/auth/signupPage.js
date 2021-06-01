@@ -14,11 +14,11 @@ const signup = () => {
         showPassword: false,
         email: '',
         errors: [],
-        email_err_text: '',
+        email_err_text: [],
         is_email_err: false,
-        pass_err_text: '',
+        pass_err_text: [],
         is_pass_err: false,
-        con_pass_err_text: '',
+        con_pass_err_text: [],
         is_con_pass_err: false,
     });
 
@@ -52,9 +52,14 @@ const signup = () => {
         const password = values.password;
         const con_password = values.confirmPassword;
 
-        values.is_email_err = false;
-        values.is_pass_err = false;
-        values.is_con_pass_err = false;
+        setValues({...values,
+            is_con_pass_err: false, 
+            is_email_err: false,
+            is_pass_err: false,
+            email_err_text: [],
+            pass_err_text: [],
+            con_pass_err_text: []
+        });
 
         try{
             const response = await axios.post('/api/auth/signup', {
@@ -66,23 +71,27 @@ const signup = () => {
             values.errors = err.response.data.errors;
             console.log(values.errors);
 
-            let email_err_text = '';
-            let pass_err_text = '';
-            let con_pass_err_text = '';
+            let email_err_text = [];
+            let pass_err_text = [];
+            let con_pass_err_text = [];
             values.errors.map(function(error){
                 switch(error.message)
                 {
-                    case "Password must be between 4 and 20 characters":
-                        pass_err_text = error.message;
-                        values.is_pass_err = true;
+                    case 'Email must be valid':
+                        email_err_text.push(error.message);
+                        values.is_email_err = true;
+                        break;
+                    case 'Email in use':
+                        email_err_text.push(error.message);
+                        values.is_email_err = true;
                         break;
                     case "please input same password as above":
-                        con_pass_err_text = error.message;
+                        con_pass_err_text.push(error.message);
                         values.is_con_pass_err = true;
                         break;
                     default:
-                        email_err_text = error.message;
-                        values.is_email_err = true;
+                        pass_err_text.push(error.message);
+                        values.is_pass_err = true;
                 }
             });
             
@@ -97,7 +106,13 @@ const signup = () => {
             <h1 >Sign Up</h1>
             <div className="comp">
             <TextField 
-                helperText = {values.email_err_text}
+                helperText = { values.email_err_text.length > 0 && (
+                    <ul>
+                        {values.email_err_text.map((error)=>
+                            <li>{error}</li>
+                        )}
+                    </ul>
+                )}
                 error = {values.is_email_err}
                 fullWidth
                 id="email" 
@@ -133,7 +148,15 @@ const signup = () => {
                     </InputAdornment>
                 }
             />
-            <FormHelperText id="pass-err" error = {values.is_pass_err}>{values.pass_err_text}</FormHelperText>
+            <FormHelperText id="pass-err" error = {values.is_pass_err}>
+                { values.pass_err_text.length > 0 && (
+                    <ul>
+                        {values.pass_err_text.map((error)=>
+                            <li>{error}</li>
+                        )}
+                    </ul>
+                )}
+            </FormHelperText>
             </FormControl>
             </div>
 
@@ -162,7 +185,15 @@ const signup = () => {
                     </InputAdornment>
                 }
             />
-            <FormHelperText id="con_pass-err" error = {values.is_con_pass_err}>{values.con_pass_err_text}</FormHelperText>
+            <FormHelperText id="con_pass-err" error = {values.is_con_pass_err}>
+                { values.con_pass_err_text.length > 0 && (
+                    <ul>
+                        {values.con_pass_err_text.map((error) => 
+                            <li>{error}</li>
+                        )}
+                    </ul>
+                )}
+            </FormHelperText>
             </FormControl>
             </div>
 
