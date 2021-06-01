@@ -1,0 +1,25 @@
+body {
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', 'Helvetica',
+      'Arial', sans-serif;
+    padding: 20px 20px 60px;
+    background-color: #F5F5F5;
+}
+
+.comp {
+    padding-bottom: 20px;
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1{
+    text-align: center;
+}
+
+#signupForm{
+    margin-top: 200px;
+}
+
+input[type=password], input[type=email], input[type=text] {
+    background-color: white;
+}

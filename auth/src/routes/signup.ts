@@ -19,7 +19,12 @@ router.post('/api/auth/signup',[
 validateRequest,
 async (req: Request, res: Response) =>{
 
-    const { email, password } = req.body;
+    const { email, password, con_password } = req.body;
+    console.log(password,con_password);
+
+    if(password !== con_password){
+        throw new BadRequestError('please input same password as above');
+    }
 
     const existingUser = await User.findOne({email});
 
