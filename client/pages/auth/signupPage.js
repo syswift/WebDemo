@@ -51,6 +51,11 @@ const signup = () => {
         const email = values.email;
         const password = values.password;
         const con_password = values.confirmPassword;
+
+        values.is_email_err = false;
+        values.is_pass_err = false;
+        values.is_con_pass_err = false;
+
         try{
             const response = await axios.post('/api/auth/signup', {
                 email, password, con_password
@@ -65,25 +70,24 @@ const signup = () => {
             let pass_err_text = '';
             let con_pass_err_text = '';
             values.errors.map(function(error){
-                if(error.message === "Email must be valid" || error.message === "Email in use")
+                switch(error.message)
                 {
-                    email_err_text = error.message;
-                }
-                else if(error.message === "Password must be between 4 and 20 characters")
-                {
-                    pass_err_text = error.message;
-                }
-                else if(error.message === "please input same password as above")
-                {
-                    con_pass_err_text = error.message;
+                    case "Password must be between 4 and 20 characters":
+                        pass_err_text = error.message;
+                        values.is_pass_err = true;
+                        break;
+                    case "please input same password as above":
+                        con_pass_err_text = error.message;
+                        values.is_con_pass_err = true;
+                        break;
+                    default:
+                        email_err_text = error.message;
+                        values.is_email_err = true;
                 }
             });
             
             setValues({...values, email_err_text: email_err_text, 
                         pass_err_text: pass_err_text, con_pass_err_text:con_pass_err_text,
-                        is_email_err: email_err_text === '' ? false : true,
-                        is_pass_err: pass_err_text === '' ? false : true,
-                        is_con_pass_err: con_pass_err_text === '' ? false : true
             });
         }
     }
