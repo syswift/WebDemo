@@ -5,6 +5,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import axios from 'axios';
+import Router from 'next/router';
 
 const signup = () => {
 
@@ -66,6 +67,8 @@ const signup = () => {
                 email, password, con_password
             })
             console.log(response);
+            //success sign up
+            Router.push('/');
         } 
         catch (err) {
             values.errors = err.response.data.errors;
@@ -107,9 +110,9 @@ const signup = () => {
             <div className="comp">
             <TextField 
                 helperText = { values.email_err_text.length > 0 && (
-                    <ul>
+                    <ul className="err_ul">
                         {values.email_err_text.map((error)=>
-                            <li>{error}</li>
+                            <li key={error}>{error}</li>
                         )}
                     </ul>
                 )}
@@ -150,9 +153,9 @@ const signup = () => {
             />
             <FormHelperText id="pass-err" error = {values.is_pass_err}>
                 { values.pass_err_text.length > 0 && (
-                    <ul>
+                    <ul className="err_ul">
                         {values.pass_err_text.map((error)=>
-                            <li>{error}</li>
+                            <li key={error}>{error}</li>
                         )}
                     </ul>
                 )}
@@ -187,9 +190,9 @@ const signup = () => {
             />
             <FormHelperText id="con_pass-err" error = {values.is_con_pass_err}>
                 { values.con_pass_err_text.length > 0 && (
-                    <ul>
+                    <ul className="err_ul">
                         {values.con_pass_err_text.map((error) => 
-                            <li>{error}</li>
+                            <li key={error}>{error}</li>
                         )}
                     </ul>
                 )}
