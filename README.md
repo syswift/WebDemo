@@ -1,4 +1,4 @@
 # WebDemo
 
-- [ ] sign up page done
-- [x] optimize sign up error handling
+- [x] sign up page done
+- [ ] optimize sign up error handling
