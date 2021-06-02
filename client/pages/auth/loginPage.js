@@ -96,8 +96,8 @@ const signin = () => {
     }
     
     return (
-        <form id="signupForm" autoComplete="off" onSubmit={onSubmit}>
-            <h1 >Sign In</h1>
+        <form id="signupForm" autoComplete="on" onSubmit={onSubmit}>
+            <h1 >Log In</h1>
             <div className="comp">
             <TextField 
                 helperText = { values.email_err_text.length > 0 && (
@@ -157,7 +157,7 @@ const signin = () => {
             <div className="comp">
             <ThemeProvider theme={theme}>
                 <Button fullWidth type="submit" variant="contained" color="primary">
-                     sign in
+                     Log In
                 </Button>
             </ThemeProvider>
             </div>

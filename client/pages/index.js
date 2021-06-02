@@ -1,7 +1,6 @@
 import buildClient from '../api/build-client';
 
 const mainPage = ({currentUser}) => {
-    console.log(currentUser);
 
     return <h1>{currentUser !== null ? 'Already logined' : 'Not login'}</h1>;
 };
