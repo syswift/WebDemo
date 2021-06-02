@@ -24,11 +24,11 @@ async (req: Request, res: Response) =>{
 
     const existingUser = await User.findOne({email});
     if(!existingUser){
-        throw new BadRequestError('Invalid credentials');
+        throw new BadRequestError('Invalid credentials, wrong email or password');
     }
     const passwordMatch = await Password.compare(existingUser.password, password);
     if(!passwordMatch) {
-        throw new BadRequestError('Invalid credentials');
+        throw new BadRequestError('Invalid credentials, wrong email or password');
     }
 
     //Generate JWT

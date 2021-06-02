@@ -7,11 +7,10 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import axios from 'axios';
 import Router from 'next/router';
 
-const signup = () => {
+const signin = () => {
 
     const [values, setValues] = React.useState({
         password: '',
-        confirmPassword: '',
         showPassword: false,
         email: '',
         errors: [],
@@ -19,8 +18,6 @@ const signup = () => {
         is_email_err: false,
         pass_err_text: [],
         is_pass_err: false,
-        con_pass_err_text: [],
-        is_con_pass_err: false,
     });
 
     const handleChange = (prop) => (event) => {
@@ -51,20 +48,17 @@ const signup = () => {
         
         const email = values.email;
         const password = values.password;
-        const con_password = values.confirmPassword;
 
         setValues({...values,
-            is_con_pass_err: false, 
             is_email_err: false,
             is_pass_err: false,
             email_err_text: [],
             pass_err_text: [],
-            con_pass_err_text: []
         });
 
         try{
-            const response = await axios.post('/api/auth/signup', {
-                email, password, con_password
+            const response = await axios.post('/api/auth/signin', {
+                email, password
             })
             console.log(response);
             //success sign up
@@ -76,7 +70,6 @@ const signup = () => {
 
             let email_err_text = [];
             let pass_err_text = [];
-            let con_pass_err_text = [];
             values.errors.map(function(error){
                 switch(error.message)
                 {
@@ -84,29 +77,27 @@ const signup = () => {
                         email_err_text.push(error.message);
                         values.is_email_err = true;
                         break;
-                    case 'Email in use':
-                        email_err_text.push(error.message);
-                        values.is_email_err = true;
-                        break;
-                    case "please input same password as above":
-                        con_pass_err_text.push(error.message);
-                        values.is_con_pass_err = true;
+                    case "You must supply a password":
+                        pass_err_text.push(error.message);
+                        values.is_pass_err = true;
                         break;
                     default:
+                        email_err_text.push(error.message);
+                        values.is_email_err = true;
                         pass_err_text.push(error.message);
                         values.is_pass_err = true;
                 }
             });
             
             setValues({...values, email_err_text: email_err_text, 
-                        pass_err_text: pass_err_text, con_pass_err_text:con_pass_err_text,
+                        pass_err_text: pass_err_text
             });
         }
     }
     
     return (
         <form id="signupForm" autoComplete="off" onSubmit={onSubmit}>
-            <h1 >Sign Up</h1>
+            <h1 >Sign In</h1>
             <div className="comp">
             <TextField 
                 helperText = { values.email_err_text.length > 0 && (
@@ -164,46 +155,9 @@ const signup = () => {
             </div>
 
             <div className="comp">
-            <FormControl fullWidth variant="outlined">
-            <InputLabel htmlFor="con-password" error = {values.is_con_pass_err}>Confirm password</InputLabel>
-            <OutlinedInput
-                id="con-password" 
-                error = {values.is_con_pass_err}
-                placeholder="Input same password as above"
-                type={values.showPassword ? 'text' : 'password'}
-                value={values.confirmPassword}
-                onChange={handleChange('confirmPassword')}
-                labelWidth={130}
-                aria-describedby = "con_pass-err"
-                endAdornment={
-                    <InputAdornment position="end">
-                        <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                        >
-                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                    </InputAdornment>
-                }
-            />
-            <FormHelperText id="con_pass-err" error = {values.is_con_pass_err}>
-                { values.con_pass_err_text.length > 0 && (
-                    <ul className="err_ul">
-                        {values.con_pass_err_text.map((error) => 
-                            <li key={error}>{error}</li>
-                        )}
-                    </ul>
-                )}
-            </FormHelperText>
-            </FormControl>
-            </div>
-
-            <div className="comp">
             <ThemeProvider theme={theme}>
                 <Button fullWidth type="submit" variant="contained" color="primary">
-                     sign up
+                     sign in
                 </Button>
             </ThemeProvider>
             </div>
@@ -211,4 +165,4 @@ const signup = () => {
     );
 };
 
-export default signup;
+export default signin;
