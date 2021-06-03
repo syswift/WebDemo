@@ -6,6 +6,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Router from 'next/router';
 import axios from 'axios';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Image from 'next/image';
+
 
 const Navbar =({currentUser})=>{
 
@@ -31,6 +33,12 @@ const Navbar =({currentUser})=>{
             <IconButton edge="start" color="inherit" aria-label="menu">
             <MenuIcon />
             </IconButton>
+            <Image 
+            src="/logo.png"
+            alt="logo" 
+            width={40} 
+            height={40} 
+            />
             <Button color="inherit" onClick={()=>{Router.push('/')}}>
             Web Demo
             </Button>

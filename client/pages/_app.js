@@ -2,10 +2,15 @@ import '@material-ui/core';
 import '../globalStyle.css';
 import Navbar from '../component/navbar';
 import buildClient from '../api/build-client';
+import Head from 'next/head';
 
 const global = ({Component, pageProps, currentUser}) =>{
     return (
     <div>
+        <Head>
+            <title>Web Demo</title>
+            <link rel="shortcut icon" href='/logo.png'/>
+        </Head>
         <Navbar currentUser={currentUser}/>
         <Component {...pageProps} />
     </div>
