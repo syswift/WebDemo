@@ -1,6 +1,5 @@
 import {MongoMemoryServer} from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import {app} from '../app';
 import jwt from 'jsonwebtoken';
 
 declare global{
