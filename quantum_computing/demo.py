@@ -1,7 +1,7 @@
 import strangeworks.qiskit
 import qiskit
 
-print("Hello world! Welcome to QuantumComputing.com!")
+print("Hello world! Welcome to QuantumComputing!")
 
 qc = qiskit.QuantumCircuit(2, 2)
 qc.h(0)
