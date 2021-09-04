@@ -67,4 +67,5 @@ it('create a ticket with valid inputs', async () => {
     expect(tickets.length).toEqual(1);
     expect(tickets[0].price).toEqual(price);
     expect(tickets[0].title).toEqual(title);
+    //console.log(tickets[0]);
 });

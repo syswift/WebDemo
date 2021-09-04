@@ -1,5 +1,4 @@
 import { NotFoundError, requireAuth, validateRequest } from '@syswift1/common';
-import { body } from 'express-validator';
 import express, {Request, Response} from 'express';
 import { Ticket } from '../models/ticket';
 
@@ -7,13 +6,15 @@ const router = express.Router();
 
 
 router.get('/api/tickets/:id', async (req: Request, res: Response) =>{
+    //console.log(req.params.id);
     const ticket = await Ticket.findById(req.params.id);
+    //console.log(ticket);
 
     if(!ticket) {
         throw new NotFoundError();
     }
 
-    res.send(Ticket);
+    res.send(ticket);
 });
 
 export {router as showTicketRouter};
