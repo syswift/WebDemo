@@ -1,9 +1,8 @@
-import { NotFoundError, requireAuth, validateRequest } from '@syswift1/common';
+import { NotFoundError } from '@syswift1/common';
 import express, {Request, Response} from 'express';
 import { Ticket } from '../models/ticket';
 
 const router = express.Router();
-
 
 router.get('/api/tickets/:id', async (req: Request, res: Response) =>{
     //console.log(req.params.id);
