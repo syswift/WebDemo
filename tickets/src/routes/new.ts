@@ -2,6 +2,8 @@ import { requireAuth, validateRequest } from '@syswift1/common';
 import { body } from 'express-validator';
 import express, {Request, Response} from 'express';
 import { Ticket } from '../models/ticket';
+import { natsWrapper } from './nats-wrapper';
+import { TicketCreatedPublisher } from '../event/publishers/ticket-created-publisher';
 
 const router = express.Router();
 
@@ -22,6 +24,12 @@ router.post('/api/tickets', requireAuth, [
         userId: req.currentUser!.id
     });
     await ticket.save();
+    await new TicketCreatedPublisher(natsWrapper.client).publish({
+        id: ticket.id,
+        title: ticket.title,
+        price: ticket.price,
+        userId: ticket.userId
+    });
 
     res.status(201).send(ticket);
 });
