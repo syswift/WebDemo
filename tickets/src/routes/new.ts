@@ -2,7 +2,7 @@ import { requireAuth, validateRequest } from '@syswift1/common';
 import { body } from 'express-validator';
 import express, {Request, Response} from 'express';
 import { Ticket } from '../models/ticket';
-import { natsWrapper } from './nats-wrapper';
+import { natsWrapper } from '../nats-wrapper';
 import { TicketCreatedPublisher } from '../event/publishers/ticket-created-publisher';
 
 const router = express.Router();
