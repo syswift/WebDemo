@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import mongoose from 'mongoose';
+import { natsWrapper } from '../../nats-wrapper';
 
 jest.mock('../../nats-wrapper');
 
@@ -102,4 +103,29 @@ it('updates the ticket provided valid inputs', async () => {
 
     expect(ticketResponse.body.title).toEqual('new title');
     expect(ticketResponse.body.price).toEqual(100);
+});
+
+it('publishes an event', async () => {
+    const cookie = global.signin();
+
+    const response = await request(app)
+        .post('/api/tickets/')
+        .set('Cookie', cookie)
+        .send({
+            title: 'ewfwefwf',
+            price: 20
+    });
+
+    await request(app)
+        .put(`/api/tickets/${response.body.id}`)
+        .set('Cookie',  cookie)
+        .send({
+            title: 'new title',
+            price: 100
+        })
+        .expect(200);
+
+    //console.log(natsWrapper);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
